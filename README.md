@@ -18,4 +18,4 @@ There's no such thing as the surface. There's no such thing as a hight limit. Th
 ### The Storyline
 You run the game executable for the first time, and you're given a chance to start any recording software. Then the storyline starts.
 
-You're decending a mineshaft elevator. You arrive at the bottom. You look around and seek darkness; your only lightsource is a near-empty lantern you are holding. You hear all manner of sounds, you feel like you're being watched. You only have a periodically delivered set of supplies to work with. You were asked to continually send mined materials back up the shaft. What will you do?
+You're decending a mineshaft elevator. You arrive at the bottom. You look around and see darkness; your only lightsource is a near-empty lantern you are holding. You hear all manner of sounds. You feel like you're being watched. You only have a periodically delivered set of supplies to work with. You were asked to continually send mined materials back up the shaft. What will you do?
