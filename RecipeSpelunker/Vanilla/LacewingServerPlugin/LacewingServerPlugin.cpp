@@ -29,34 +29,28 @@
  * SUCH DAMAGE.
  */
 
-#ifndef __RecipeSpelunker_Utility_Exception_HeaderPlusPlus__
-#define __RecipeSpelunker_Utility_Exception_HeaderPlusPlus__
-
-#include "String.hpp"
+#include "../../Plugin.hpp"
+#include "LacewingServer.hpp"
 
 namespace RecipeSpelunker
 {
-	namespace Utility
+	namespace Vanilla
 	{
-		struct Exception
+		namespace LacewingServerPlugin
 		{
-			Exception(){}
-			Exception(const String &msg) : msg(msg) {}
-			Exception(const Exception &from) : msg(from.msg) {}
-			Exception(Exception &&from) : msg(from.msg) {}
-			Exception &operator=(const Exception &) = delete;
-			Exception &operator=(Exception &&) = delete;
-			virtual ~Exception(){}
-
-			virtual operator String() const
+			struct LacewingServerPlugin : public virtual Plugin
 			{
-				return msg;
-			}
-
-		private:
-			String msg;
-		};
+				LacewingServerPlugin()
+				{
+				}
+				LacewingServerPlugin(const LacewingServerPlugin &) = delete;
+				LacewingServerPlugin(LacewingServerPlugin &&) = delete;
+				LacewingServerPlugin &operator=(const LacewingServerPlugin &) = delete;
+				~LacewingServerPlugin()
+				{
+				}
+			};
+		}
 	}
 }
 
-#endif

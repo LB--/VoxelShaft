@@ -55,7 +55,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Compiling Main.cpp"
-						CommandLine="CompileWithClang.bat nopause"
+						CommandLine="CompileWithClang.bat nopause&#x0D;&#x0A;"
 						Outputs="Recipe-Spelunker.exe"
 					/>
 				</FileConfiguration>
@@ -110,7 +110,7 @@
 							>
 						</File>
 						<File
-							RelativePath=".\RecipeSpelunker\Vanilla\LacewingServerPlugin\LacewingServerPlugin.hpp"
+							RelativePath=".\RecipeSpelunker\Vanilla\LacewingServerPlugin\LacewingServerPlugin.cpp"
 							>
 						</File>
 					</Filter>
