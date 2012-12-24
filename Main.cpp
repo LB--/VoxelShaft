@@ -63,7 +63,7 @@ int main(int NArgs, char **Args)
 
 	try
 	{
-		throw std::exception();
+		//
 	}
 	catch(Exception &e)
 	{
