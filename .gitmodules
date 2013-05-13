@@ -4,3 +4,6 @@
 [submodule "json-parser"]
 	path = json-parser
 	url = git://github.com/udp/json-parser.git
+[submodule "RecipeSpelunker"]
+	path = RecipeSpelunker
+	url = git@github.com:LB--/Recipe-Spelunker.git
