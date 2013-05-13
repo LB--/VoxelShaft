@@ -1,3 +1,6 @@
 [submodule "Lacewing"]
 	path = Lacewing
 	url = git://github.com/udp/lacewing.git
+[submodule "json-parser"]
+	path = json-parser
+	url = git://github.com/udp/json-parser.git
