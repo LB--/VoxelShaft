@@ -1,0 +1,9 @@
+[submodule "lib/SFML"]
+	path = lib/SFML
+	url = https://github.com/LaurentGomila/SFML.git
+[submodule "lib/lacewing"]
+	path = lib/lacewing
+	url = https://github.com/udp/lacewing.git
+[submodule "lib/json-parser"]
+	path = lib/json-parser
+	url = https://github.com/udp/json-parser.git
