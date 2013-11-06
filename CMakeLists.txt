@@ -52,7 +52,7 @@ link_directories(${OPENGL_LIBRARY_DIR} ${GLUT_LIBRARY_DIR})
 #Common - resources & configuration
 if(NOT ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
 	file(COPY config/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/config/)
-	file(COPY res/    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/res/)
+	file(COPY res/	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/res/)
 endif()
 
 #Setup targets
@@ -61,9 +61,9 @@ add_executable(resplunk-client
 	${RESPLUNK_COMMON_SOURCES}
 	${RESPLUNK_CLIENT_SOURCES})
 target_link_libraries(resplunk-client
+	${SFML_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
-	${SFML_LIBRARIES}
 	${Boost_LIBRARIES})
 #server
 add_executable(resplunk-server
