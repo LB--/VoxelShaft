@@ -1,5 +1,7 @@
-#ifndef RecipeSpelunkerServerHeaderPlusPlus
-#define RecipeSpelunkerServerHeaderPlusPlus
+#ifndef RecipeSpelunkerServer_HeaderPlusPlus
+#define RecipeSpelunkerServer_HeaderPlusPlus
+
+#include <cstddef>
 
 #include <lacewing.h>
 
@@ -16,13 +18,13 @@ namespace rs
 			{
 				Server *s = static_cast<Server *>(tag);
 				s->Tick();
-				s->ep->post(&tick_forward, tag);
+				s->ep->post((void *)(&tick_forward), tag);
 			}
 
 		public:
 			Server()
 			{
-				ep->post(&tick_forward, this);
+				ep->post((void *)(&tick_forward), (void *)this);
 
 				s->tag(this);
 				s->on_error([](lacewing::server s, lacewing::error e) -> void
@@ -33,7 +35,7 @@ namespace rs
 					{
 						static_cast<Server *>(s->tag())->Connect(*new Client(c)); //Client ctor sets c->tag()
 					});
-				s->on_connect([](lacewing::server s, lacewing::server_client c, char const *data, std::size_t size) -> void
+				s->on_data([](lacewing::server s, lacewing::server_client c, char const *data, std::size_t size) -> void
 					{
 						static_cast<Server *>(s->tag())->Data(*static_cast<Client *>(c->tag()), data, size);
 					});
@@ -83,8 +85,8 @@ namespace rs
 
 			struct Client
 			{
-				Client(lacewing::server_client c)
-				: c(c)
+				Client(lacewing::server_client c_)
+				: c(c_)
 				{
 					c->tag(this);
 				}
