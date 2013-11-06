@@ -74,6 +74,8 @@ int main(int nargs, char const *const *args)
 		sf::ContextSettings(32)
 	};
 	window.setVerticalSyncEnabled(true);
+	
+	double angle = 0.0;
 
 	try
 	{[&]{
@@ -81,7 +83,22 @@ int main(int nargs, char const *const *args)
 		{
 			Resources()
 			{
-				//
+				glShadeModel(GL_SMOOTH);
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LEQUAL);
+				glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+				resize(1280, 720);
+			}
+			void resize(GLsizei x, GLsizei y)
+			{
+				glViewport(0, 0, x, y);
+				glMatrixMode(GL_PROJECTION);
+				glLoadIdentity();
+				
+				gluPerspective(45.0, static_cast<GLdouble>(x)/y, 0.1, 100.0);
+				
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
 			}
 			~Resources()
 			{
@@ -99,14 +116,15 @@ int main(int nargs, char const *const *args)
 				} break;
 				case sf::Event::Resized:
 				{
-					glViewport(0, 0, e.size.width, e.size.height);
+					res.resize(e.size.width, e.size.height);
 				} break;
 				default: break;
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-			DrawCube({1.5, 0.0, -7.0}, {1.0, 1.0, 1.0}, 2.0);
+			DrawCube({0.0, 0.0, -7.0}, {angle*2.0, angle*1.0, angle*0.5}, 2.0);
+			angle += 0.25;
 
 			window.display();
 		}
