@@ -25,7 +25,7 @@ list(APPEND RESPLUNK_COMMON_HEADERS "${LACEWING_ROOT}/lacewing.h")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 include_directories(${JSON_ROOT})
 include_directories(${LACEWING_ROOT}/include/)
-include_directories("src/common/")
+include_directories("${CMAKE_SOURCE_DIR}/src/common/")
 
 #Common - Boost
 find_package(Boost 1.54.0 COMPONENTS filesystem system REQUIRED)
@@ -45,7 +45,7 @@ link_directories(${SFML_LIBRARY_DIR})
 
 #Client-only - OpenGL & GLUT
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
+#find_package(GLUT REQUIRED)
 set(client_specific_include_dirs ${client_specific_include_dirs} ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 link_directories(${OPENGL_LIBRARY_DIR} ${GLUT_LIBRARY_DIR})
 
@@ -75,8 +75,8 @@ target_link_libraries(resplunk-server
 #Setup specific settings
 get_target_property(client_include_dirs resplunk-client INCLUDE_DIRECTORIES)
 get_target_property(server_include_dirs resplunk-server INCLUDE_DIRECTORIES)
-set(client_include_dirs ${client_include_dirs} ${client_specific_include_dirs} "src/client/")
-set(server_include_dirs ${server_include_dirs} ${server_specific_include_dirs} "src/server/")
+set(client_include_dirs ${client_include_dirs} ${client_specific_include_dirs} "${CMAKE_SOURCE_DIR}/src/client/")
+set(server_include_dirs ${server_include_dirs} ${server_specific_include_dirs} "${CMAKE_SOURCE_DIR}/src/server/")
 set_target_properties(resplunk-client
 	PROPERTIES
 	INCLUDE_DIRECTORIES "${client_include_dirs}"
