@@ -75,7 +75,9 @@ int main(int nargs, char const *const *args)
 	};
 	window.setVerticalSyncEnabled(true);
 	
-	double angle = 0.0;
+	double rx = 45.0
+	,      ry = 45.0
+	,      rz = 0.0;
 
 	try
 	{[&]{
@@ -118,13 +120,27 @@ int main(int nargs, char const *const *args)
 				{
 					res.resize(e.size.width, e.size.height);
 				} break;
+				case sf::Event::KeyPressed:
+				{
+					using K = sf::Keyboard::Key;
+					switch(e.key.code)
+					{
+						case K::Left:  rx -= 1.0; break;
+						case K::Right: rx += 1.0; break;
+						case K::Down:  ry -= 1.0; break;
+						case K::Up:    ry += 1.0; break;
+						case K::Dash:  rz -= 1.0; break;
+						case K::Equal: rz += 1.0; break;
+						case K::Return: rx = ry = 45.0; rz = 0.0; break;
+						default: break;
+					}
+				} break;
 				default: break;
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-			DrawCube({0.0, 0.0, -7.0}, {angle*2.0, angle*1.0, angle*0.5}, 2.0);
-			angle += 0.25;
+			DrawCube({0.0, 0.0, -7.0}, {rx, ry, rz}, 2.0);
 
 			window.display();
 		}
