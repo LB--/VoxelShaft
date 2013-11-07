@@ -56,6 +56,11 @@ if(NOT ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
 	file(COPY res/	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/res/)
 endif()
 
+#Common - libraries for specific OSes
+if(UNIX)
+	set(SFML_LIBRARIES pthread ${SFML_LIBRARIES} Xrandr Xext X11 freetype rt)
+endif()
+
 #Setup targets
 #client
 add_executable(resplunk-client
