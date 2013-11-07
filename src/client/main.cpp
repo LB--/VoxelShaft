@@ -212,13 +212,13 @@ int main(int nargs, char const *const *args)
 					p.y += cam_speed*std::sin(rad(r.x));
 					p.z += cam_speed*std::cos(rad(r.y))*std::cos(rad(r.x));
 				}
-				if(sf::Keyboard::isKeyPressed(K::Q))
+				if(sf::Keyboard::isKeyPressed(K::Space)) //Up
 				{
 					p.x -= cam_speed*std::sin(rad(r.y))*std::sin(rad(r.x));
 					p.y -= cam_speed*std::cos(rad(r.x));
 					p.z += cam_speed*std::cos(rad(r.y))*std::sin(rad(r.x));
 				}
-				if(sf::Keyboard::isKeyPressed(K::Z)) //Down
+				if(sf::Keyboard::isKeyPressed(K::LShift)) //Down
 				{
 					p.x += cam_speed*std::sin(rad(r.y))*std::sin(rad(r.x));
 					p.y += cam_speed*std::cos(rad(r.x));
