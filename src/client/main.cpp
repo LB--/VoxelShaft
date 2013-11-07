@@ -2,6 +2,7 @@
 #include <limits>
 #include <exception>
 #include <sstream>
+#include <cmath>
 
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
@@ -73,6 +74,11 @@ void CenterMouse(sf::Window &w)
 	sf::Mouse::setPosition(sf::Vector2i(w.getSize()/2u), w);
 }
 
+double rad(double deg)
+{
+	return deg/180.0*3.1415926;
+}
+
 int main(int nargs, char const *const *args)
 {
 	sf::RenderWindow window
@@ -92,6 +98,7 @@ int main(int nargs, char const *const *args)
 	if(!arial.loadFromFile("res/arial.ttf")) return -1;
 	sf::Text debug {"", arial, 12};
 	debug.setPosition(10.0, 10.0);
+	bool focus = false;
 
 	try
 	{[&]{
@@ -140,18 +147,30 @@ int main(int nargs, char const *const *args)
 					using K = sf::Keyboard::Key;
 					switch(e.key.code)
 					{
-						case K::Left:  r.y -= 1.0; break;
-						case K::Right: r.y += 1.0; break;
-						case K::Down:  r.x += 1.0; break;
-						case K::Up:    r.x -= 1.0; break;
-						case K::Dash:  r.z += 1.0; break;
-						case K::Equal: r.z -= 1.0; break;
-						case K::A: p.x += 0.25; break;
-						case K::D: p.x -= 0.25; break;
-						case K::S: p.y += 0.25; break;
-						case K::W: p.y -= 0.25; break;
-						case K::Q: p.z -= 0.5; break;
-						case K::E: p.z += 0.5; break;
+						case K::Left:  r.z += 1.0; break;
+						case K::Right: r.z -= 1.0; break;
+						case K::A:
+						{
+							p.x += 0.25*std::cos(rad(r.y));
+							p.z += 0.25*std::sin(rad(r.y));
+						} break;
+						case K::D:
+						{
+							p.x -= 0.25*std::cos(rad(r.y));
+							p.z -= 0.25*std::sin(rad(r.y));
+						} break;
+						case K::S:
+						{
+							p.x += 0.25*std::sin(rad(r.y))*std::cos(rad(r.x));
+							p.y -= 0.25*std::sin(rad(r.x));
+							p.z -= 0.25*std::cos(rad(r.y))*std::cos(rad(r.x));
+						} break;
+						case K::W:
+						{
+							p.x -= 0.25*std::sin(rad(r.y))*std::cos(rad(r.x));
+							p.y += 0.25*std::sin(rad(r.x));
+							p.z += 0.25*std::cos(rad(r.y))*std::cos(rad(r.x));
+						} break;
 						case K::Return:
 							p = p_init;
 							r = r_init;
@@ -170,14 +189,25 @@ int main(int nargs, char const *const *args)
 						default: break;
 					}
 				}
+				case E::GainedFocus:
+				{
+					focus = true;
+				} break;
+				case E::LostFocus:
+				{
+					focus = false;
+				} break;
 				default: break;
 			}
-			if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+			if(focus)
 			{
-				auto off = sf::Mouse::getPosition(window) - sf::Vector2i(window.getSize()/2u);
-				r.x += off.y/2.0;
-				r.y += off.x/2.0;
-				CenterMouse(window);
+				if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+				{
+					auto off = sf::Mouse::getPosition(window) - sf::Vector2i(window.getSize()/2u);
+					r.x += off.y/2.0;
+					r.y += off.x/2.0;
+					CenterMouse(window);
+				}
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
