@@ -1,9 +1,11 @@
 #include <iostream>
 #include <limits>
 #include <exception>
+#include <sstream>
 
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
+#include <SFML/Graphics.hpp>
 
 struct Pf
 {
@@ -66,7 +68,7 @@ void DrawCube(Pd p, Pd r, GLdouble size)
 
 int main(int nargs, char const *const *args)
 {
-	sf::Window window
+	sf::RenderWindow window
 	{
 		sf::VideoMode(1280, 720),
 		"Recipe Spelunker Alpha",
@@ -74,10 +76,13 @@ int main(int nargs, char const *const *args)
 		sf::ContextSettings(32)
 	};
 	window.setVerticalSyncEnabled(true);
-	
-	double rx = 45.0
-	,      ry = 45.0
-	,      rz = 0.0;
+
+	Pd p {0.0, 0.0, -7.0};
+	Pd r {45.0, 45.0, 0.0};
+	sf::Font arial;
+	if(!arial.loadFromFile("res/arial.ttf")) return -1;
+	sf::Text debug {"", arial, 12};
+	debug.setPosition(10.0, 10.0);
 
 	try
 	{[&]{
@@ -125,13 +130,22 @@ int main(int nargs, char const *const *args)
 					using K = sf::Keyboard::Key;
 					switch(e.key.code)
 					{
-						case K::Left:  rx -= 1.0; break;
-						case K::Right: rx += 1.0; break;
-						case K::Down:  ry -= 1.0; break;
-						case K::Up:    ry += 1.0; break;
-						case K::Dash:  rz -= 1.0; break;
-						case K::Equal: rz += 1.0; break;
-						case K::Return: rx = ry = 45.0; rz = 0.0; break;
+						case K::Left:  r.y -= 1.0; break;
+						case K::Right: r.y += 1.0; break;
+						case K::Down:  r.x += 1.0; break;
+						case K::Up:    r.x -= 1.0; break;
+						case K::Dash:  r.z += 1.0; break;
+						case K::Equal: r.z -= 1.0; break;
+						case K::A: p.x -= 0.25; break;
+						case K::D: p.x += 0.25; break;
+						case K::S: p.y -= 0.25; break;
+						case K::W: p.y += 0.25; break;
+						case K::Q: p.z -= 0.5; break;
+						case K::E: p.z += 0.5; break;
+						case K::Return:
+							p = {0.0, 0.0, -7.0};
+							r = {45.0, 45.0, 0.0};
+							break;
 						default: break;
 					}
 				} break;
@@ -140,7 +154,21 @@ int main(int nargs, char const *const *args)
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-			DrawCube({0.0, 0.0, -7.0}, {rx, ry, rz}, 2.0);
+			DrawCube(p, r, 2.0);
+			
+			window.pushGLStates();
+			{
+				std::ostringstream ds;
+				ds << "p.x = " << p.x << std::endl
+				   << "p.y = " << p.y << std::endl
+				   << "p.z = " << p.z << std::endl
+				   << "r.x = " << r.x << std::endl
+				   << "r.y = " << r.y << std::endl
+				   << "r.z = " << r.z << std::endl;
+				debug.setString(ds.str());
+				window.draw(debug);
+			}
+			window.popGLStates();
 
 			window.display();
 		}
