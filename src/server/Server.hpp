@@ -22,7 +22,7 @@ namespace rs
 			}
 
 		public:
-			Server()
+			Server(short port)
 			{
 				ep->post((void *)(&tick_forward), (void *)this);
 
@@ -46,7 +46,7 @@ namespace rs
 						delete p;
 					});
 
-				s->host(25564);
+				s->host(port);
 			}
 			~Server()
 			{

@@ -26,6 +26,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 include_directories(${JSON_ROOT})
 include_directories(${LACEWING_ROOT}/include/)
 include_directories("${CMAKE_SOURCE_DIR}/src/common/")
+set(LACEWING_LIBRARIES ws2_32 mswsock mpr crypt32 secur32 lacewing)
 
 #Common - Boost
 find_package(Boost 1.54.0 COMPONENTS filesystem system REQUIRED)
@@ -59,18 +60,24 @@ endif()
 #client
 add_executable(resplunk-client
 	${RESPLUNK_COMMON_SOURCES}
-	${RESPLUNK_CLIENT_SOURCES})
+	${RESPLUNK_CLIENT_SOURCES}
+)
 target_link_libraries(resplunk-client
 	${SFML_LIBRARIES}
 	${OPENGL_LIBRARIES}
 	${GLUT_LIBRARY}
-	${Boost_LIBRARIES})
+	${Boost_LIBRARIES}
+#	${LACEWING_LIBRARIES}
+)
 #server
 add_executable(resplunk-server
 	${RESPLUNK_COMMON_SOURCES}
-	${RESPLUNK_SERVER_SOURCES})
+	${RESPLUNK_SERVER_SOURCES}
+)
 target_link_libraries(resplunk-server
-	${Boost_LIBRARIES})
+	${Boost_LIBRARIES}
+#	${LACEWING_LIBRARIES}
+)
 
 #Setup specific settings
 get_target_property(client_include_dirs resplunk-client INCLUDE_DIRECTORIES)
