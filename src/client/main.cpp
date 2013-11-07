@@ -18,7 +18,8 @@ struct Pd
 
 void DrawCube(Pd p, Pd r, GLdouble size)
 {
-	glLoadIdentity();
+	//glLoadIdentity();
+	glPushMatrix();
 	glTranslated(p.x, p.y, p.z);
 	glRotated(r.x, 1.0, 0.0, 0.0);
 	glRotated(r.y, 0.0, 1.0, 0.0);
@@ -64,6 +65,7 @@ void DrawCube(Pd p, Pd r, GLdouble size)
 		glVertex3d(+size, -size, -size);
 	}
 	glEnd();
+	glPopMatrix();
 }
 
 int main(int nargs, char const *const *args)
@@ -77,8 +79,10 @@ int main(int nargs, char const *const *args)
 	};
 	window.setVerticalSyncEnabled(true);
 
-	Pd p {0.0, 0.0, -7.0};
-	Pd r {45.0, 45.0, 0.0};
+	Pd const p_init {1.5, 0.5, -7.0}
+	,        r_init {-150, -30, 0.0};
+	Pd p = p_init
+	,  r = r_init;
 	sf::Font arial;
 	if(!arial.loadFromFile("res/arial.ttf")) return -1;
 	sf::Text debug {"", arial, 12};
@@ -143,8 +147,8 @@ int main(int nargs, char const *const *args)
 						case K::Q: p.z -= 0.5; break;
 						case K::E: p.z += 0.5; break;
 						case K::Return:
-							p = {0.0, 0.0, -7.0};
-							r = {45.0, 45.0, 0.0};
+							p = p_init;
+							r = r_init;
 							break;
 						default: break;
 					}
@@ -153,9 +157,18 @@ int main(int nargs, char const *const *args)
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+			glLoadIdentity();
 
-			DrawCube(p, r, 2.0);
-			
+			glTranslated(p.x, p.y, p.z);
+			glRotated(r.x, 1.0, 0.0, 0.0);
+			glRotated(r.y, 0.0, 1.0, 0.0);
+			glRotated(r.z, 0.0, 0.0, 1.0);
+
+			glPushMatrix();
+				DrawCube({0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2.0);
+				DrawCube({-2.5, 0.0, 0.0}, {10.0, -20.0, 0.0}, 2.0);
+			glPopMatrix();
+
 			window.pushGLStates();
 			{
 				std::ostringstream ds;
