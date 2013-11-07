@@ -99,6 +99,7 @@ int main(int nargs, char const *const *args)
 	sf::Text debug {"", arial, 12};
 	debug.setPosition(10.0, 10.0);
 	bool focus = false;
+	double cam_speed = 0.25;
 
 	try
 	{[&]{
@@ -149,32 +150,11 @@ int main(int nargs, char const *const *args)
 					{
 						case K::Left:  r.z += 1.0; break;
 						case K::Right: r.z -= 1.0; break;
-						case K::A:
-						{
-							p.x += 0.25*std::cos(rad(r.y));
-							p.z += 0.25*std::sin(rad(r.y));
-						} break;
-						case K::D:
-						{
-							p.x -= 0.25*std::cos(rad(r.y));
-							p.z -= 0.25*std::sin(rad(r.y));
-						} break;
-						case K::S:
-						{
-							p.x += 0.25*std::sin(rad(r.y))*std::cos(rad(r.x));
-							p.y -= 0.25*std::sin(rad(r.x));
-							p.z -= 0.25*std::cos(rad(r.y))*std::cos(rad(r.x));
-						} break;
-						case K::W:
-						{
-							p.x -= 0.25*std::sin(rad(r.y))*std::cos(rad(r.x));
-							p.y += 0.25*std::sin(rad(r.x));
-							p.z += 0.25*std::cos(rad(r.y))*std::cos(rad(r.x));
-						} break;
 						case K::Return:
+						{
 							p = p_init;
 							r = r_init;
-							break;
+						} break;
 						default: break;
 					}
 				} break;
@@ -207,6 +187,42 @@ int main(int nargs, char const *const *args)
 					r.x += off.y/2.0;
 					r.y += off.x/2.0;
 					CenterMouse(window);
+				}
+
+				using K = sf::Keyboard::Key;
+				if(sf::Keyboard::isKeyPressed(K::A)) //Left
+				{
+					p.x += cam_speed*std::cos(rad(r.y));
+					p.z += cam_speed*std::sin(rad(r.y));
+				}
+				if(sf::Keyboard::isKeyPressed(K::D)) //Right
+				{
+					p.x -= cam_speed*std::cos(rad(r.y));
+					p.z -= cam_speed*std::sin(rad(r.y));
+				}
+				if(sf::Keyboard::isKeyPressed(K::S)) //Backward
+				{
+					p.x += cam_speed*std::sin(rad(r.y))*std::cos(rad(r.x));
+					p.y -= cam_speed*std::sin(rad(r.x));
+					p.z -= cam_speed*std::cos(rad(r.y))*std::cos(rad(r.x));
+				}
+				if(sf::Keyboard::isKeyPressed(K::W)) //Forward
+				{
+					p.x -= cam_speed*std::sin(rad(r.y))*std::cos(rad(r.x));
+					p.y += cam_speed*std::sin(rad(r.x));
+					p.z += cam_speed*std::cos(rad(r.y))*std::cos(rad(r.x));
+				}
+				if(sf::Keyboard::isKeyPressed(K::Q))
+				{
+					p.x -= cam_speed*std::sin(rad(r.y))*std::sin(rad(r.x));
+					p.y -= cam_speed*std::cos(rad(r.x));
+					p.z += cam_speed*std::cos(rad(r.y))*std::sin(rad(r.x));
+				}
+				if(sf::Keyboard::isKeyPressed(K::Z)) //Down
+				{
+					p.x += cam_speed*std::sin(rad(r.y))*std::sin(rad(r.x));
+					p.y += cam_speed*std::cos(rad(r.x));
+					p.z -= cam_speed*std::cos(rad(r.y))*std::sin(rad(r.x));
 				}
 			}
 
