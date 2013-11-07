@@ -68,6 +68,11 @@ void DrawCube(Pd p, Pd r, GLdouble size)
 	glPopMatrix();
 }
 
+void CenterMouse(sf::Window &w)
+{
+	sf::Mouse::setPosition(sf::Vector2i(w.getSize()/2u), w);
+}
+
 int main(int nargs, char const *const *args)
 {
 	sf::RenderWindow window
@@ -79,8 +84,8 @@ int main(int nargs, char const *const *args)
 	};
 	window.setVerticalSyncEnabled(true);
 
-	Pd const p_init {1.5, 0.5, -7.0}
-	,        r_init {-150, -30, 0.0};
+	Pd const p_init {2.0, -4.0, -7.0}
+	,        r_init {30, 5.0, 0.0};
 	Pd p = p_init
 	,  r = r_init;
 	sf::Font arial;
@@ -92,13 +97,13 @@ int main(int nargs, char const *const *args)
 	{[&]{
 		struct Resources
 		{
-			Resources()
+			Resources(sf::RenderWindow &w)
 			{
 				glShadeModel(GL_SMOOTH);
 				glEnable(GL_DEPTH_TEST);
 				glDepthFunc(GL_LEQUAL);
 				glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-				resize(1280, 720);
+				resize(w.getSize().x, w.getSize().y);
 			}
 			void resize(GLsizei x, GLsizei y)
 			{
@@ -115,21 +120,22 @@ int main(int nargs, char const *const *args)
 			{
 				//
 			}
-		} res;
+		} res(window);
 		for(;;)
 		{
 			sf::Event e;
 			while(window.pollEvent(e)) switch(e.type)
 			{
-				case sf::Event::Closed:
+				using E = sf::Event;
+				case E::Closed:
 				{
 					return;
 				} break;
-				case sf::Event::Resized:
+				case E::Resized:
 				{
 					res.resize(e.size.width, e.size.height);
 				} break;
-				case sf::Event::KeyPressed:
+				case E::KeyPressed:
 				{
 					using K = sf::Keyboard::Key;
 					switch(e.key.code)
@@ -140,10 +146,10 @@ int main(int nargs, char const *const *args)
 						case K::Up:    r.x -= 1.0; break;
 						case K::Dash:  r.z += 1.0; break;
 						case K::Equal: r.z -= 1.0; break;
-						case K::A: p.x -= 0.25; break;
-						case K::D: p.x += 0.25; break;
-						case K::S: p.y -= 0.25; break;
-						case K::W: p.y += 0.25; break;
+						case K::A: p.x += 0.25; break;
+						case K::D: p.x -= 0.25; break;
+						case K::S: p.y += 0.25; break;
+						case K::W: p.y -= 0.25; break;
 						case K::Q: p.z -= 0.5; break;
 						case K::E: p.z += 0.5; break;
 						case K::Return:
@@ -153,16 +159,34 @@ int main(int nargs, char const *const *args)
 						default: break;
 					}
 				} break;
+				case E::MouseButtonPressed:
+				{
+					switch(e.mouseButton.button)
+					{
+						case sf::Mouse::Button::Left:
+						{
+							CenterMouse(window);
+						} break;
+						default: break;
+					}
+				}
 				default: break;
+			}
+			if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+			{
+				auto off = sf::Mouse::getPosition(window) - sf::Vector2i(window.getSize()/2u);
+				r.x += off.y/2.0;
+				r.y += off.x/2.0;
+				CenterMouse(window);
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 			glLoadIdentity();
 
-			glTranslated(p.x, p.y, p.z);
 			glRotated(r.x, 1.0, 0.0, 0.0);
 			glRotated(r.y, 0.0, 1.0, 0.0);
 			glRotated(r.z, 0.0, 0.0, 1.0);
+			glTranslated(p.x, p.y, p.z);
 
 			glPushMatrix();
 				DrawCube({0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2.0);
