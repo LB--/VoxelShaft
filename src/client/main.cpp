@@ -148,8 +148,8 @@ int main(int nargs, char const *const *args)
 					using K = sf::Keyboard::Key;
 					switch(e.key.code)
 					{
-						case K::Left:  r.z += 1.0; break;
-						case K::Right: r.z -= 1.0; break;
+						case K::Left:  r.z -= 1.0; break;
+						case K::Right: r.z += 1.0; break;
 						case K::Return:
 						{
 							p = p_init;
@@ -225,6 +225,12 @@ int main(int nargs, char const *const *args)
 					p.z -= cam_speed*std::cos(rad(r.y))*std::sin(rad(r.x));
 				}
 			}
+			if(r.x > 90.0) r.x = 90.0;
+			if(r.x < -90.0) r.x = -90.0;
+			if(r.y > 180.0) r.y -= 360.0;
+			if(r.y < -180.0) r.y += 360.0;
+			if(r.z > 180.0) r.z -= 360.0;
+			if(r.z < -180.0) r.z += 360.0;
 
 			glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 			glLoadIdentity();
