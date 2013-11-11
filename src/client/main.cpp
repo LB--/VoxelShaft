@@ -155,6 +155,7 @@ int main(int nargs, char const *const *args)
 							p = p_init;
 							r = r_init;
 						} break;
+						case K::C: r = {0.0, 0.0, 0.0}; break;
 						default: break;
 					}
 				} break;
@@ -241,8 +242,10 @@ int main(int nargs, char const *const *args)
 			glTranslated(p.x, p.y, p.z);
 
 			glPushMatrix();
+			{
 				DrawCube({0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2.0);
 				DrawCube({-2.5, 0.0, 0.0}, {10.0, -20.0, 0.0}, 2.0);
+			}
 			glPopMatrix();
 
 			window.pushGLStates();
