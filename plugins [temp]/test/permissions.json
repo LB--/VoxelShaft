@@ -1,0 +1,50 @@
+{
+	"example permission 1":
+	{
+		"default": null
+	},
+	"example permission 2":
+	{
+		"default": true
+	},
+	"example permission 3":
+	{
+		"default": false
+	},
+	"example permission 4":
+	{
+		"properties":
+		{
+			"property 1":
+			{
+				"type": "integer range",
+				"min": 0,
+				"max": 10
+			},
+			"property 2":
+			{
+				"type": "integer range",
+				"min": 0,
+				"default": 20
+			},
+			"property 3":
+			{
+				"type": "string"
+				"default": null
+			},
+			"property 4":
+			{
+				"type": "real"
+				"default": 3.1415926
+			}
+		},
+		"default":
+		[
+			{
+				"name": "property 1",
+				"value": 7,
+				"given": false
+			}
+		]
+	}
+}
