@@ -1,6 +1,3 @@
-[submodule "lib/SFML"]
-	path = lib/SFML
-	url = https://github.com/LaurentGomila/SFML.git
 [submodule "lib/lacewing"]
 	path = lib/lacewing
 	url = https://github.com/udp/lacewing.git
