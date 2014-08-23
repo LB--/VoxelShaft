@@ -7,3 +7,6 @@
 [submodule "lib/json-parser"]
 	path = lib/json-parser
 	url = https://github.com/udp/json-parser.git
+[submodule "lib/json-builder"]
+	path = lib/json-builder
+	url = https://github.com/udp/json-builder.git
