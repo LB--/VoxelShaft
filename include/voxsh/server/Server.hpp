@@ -1,11 +1,13 @@
-#ifndef RecipeSpelunkerServer_HeaderPlusPlus
-#define RecipeSpelunkerServer_HeaderPlusPlus
+#ifndef voxsh_server_Server_HeaderPlusPlus
+#define voxsh_server_Server_HeaderPlusPlus
+
+#include "resplunk/server/Server.hpp"
 
 #include <cstddef>
 
-#include <lacewing.h>
+#include <lacewing.h> //TODO: Move to Server.cpp
 
-namespace rs
+namespace voxsh
 {
 	namespace server
 	{
