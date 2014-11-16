@@ -1,6 +1,9 @@
-#include "voxsh/server/Server.hpp"
+#include <string>
+#include <vector>
 
-int main(int nargs, char const *const *args)
+int main(int, char const *const *plain_args)
 {
-	//voxsh::server::Server s = 25564;
+	std::basic_string<char const *> const temp {plain_args};
+	std::vector<std::string> const args {std::begin(temp), std::end(temp)};
+	//
 }
